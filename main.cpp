@@ -4,10 +4,13 @@
 #include "api/peer_connection_interface.h"
 #include <iostream>
 
+#include "mywidget.h"
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    MainWindow w;
+    MyWidget w;
+
 
     if (!rtc::InitializeSSL()) {
         std::cerr << "Unable to initialize SSL" << std::endl;

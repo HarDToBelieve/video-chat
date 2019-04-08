@@ -14,9 +14,9 @@ MyWidget::MyWidget()
 
     setupUi(this);
 
-    QObject::connect(m_pStartButton, SIGNAL(clicked()), this, SLOT(onStartClicked()));
-    QObject::connect(m_pProcessAnswerButton, SIGNAL(clicked()), this, SLOT(onAnswerClicked()));
-    QObject::connect(m_pProcessRemoteICEButton, SIGNAL(clicked()), this, SLOT(onRemoteICEClicked()));
+//    QObject::connect(m_pStartButton, SIGNAL(clicked()), this, SLOT(MyWidget::OnStartClicked()));
+//    QObject::connect(m_pProcessAnswerButton, SIGNAL(clicked()), this, SLOT(MyWidget::OnAnswerClicked()));
+//    QObject::connect(m_pProcessRemoteICEButton, SIGNAL(clicked()), this, SLOT(MyWidget::OnRemoteICEClicked()));
 }
 
 MyWidget::~MyWidget()
@@ -159,4 +159,20 @@ void MyWidget::OnLocalIceCandidate(const QString &iceCandidate)
     QString str = m_pOwnICEText->toPlainText();
     str += iceCandidate + "\n";
     m_pOwnICEText->setPlainText(str);
+}
+
+void MyWidget::on_m_pStartButton_clicked()
+{
+    MyWidget::OnStartClicked();
+}
+
+void MyWidget::on_m_pProcessAnswerButton_clicked()
+{
+    MyWidget::OnAnswerClicked();
+}
+
+
+void MyWidget::on_m_pProcessRemoteICEButton_clicked()
+{
+    MyWidget::OnRemoteICEClicked();
 }

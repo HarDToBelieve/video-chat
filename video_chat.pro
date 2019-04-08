@@ -37,7 +37,8 @@ SOURCES += \
     myconnectionobserver.cpp \
     capturetracksource.cpp \
     vcmcapturer.cpp \
-    video_capturer.cpp
+    video_capturer.cpp \
+#    mainwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     dummysetsdobserver.h \
     myconnectionobserver.h \
     vcmcapturer.h \
-    video_capturer.h
+    video_capturer.h \
+#    mainwindow.h
 
 FORMS += \
         mainwindow.ui

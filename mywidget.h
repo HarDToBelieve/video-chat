@@ -36,12 +36,21 @@ public:
 
     void setNewFrame(const QImage &img);
 private slots:
-    void OnStartClicked();
-    void OnAnswerClicked();
-    void OnRemoteICEClicked();
+    void on_m_pProcessRemoteICEButton_clicked();
+
+private slots:
+    void on_m_pProcessAnswerButton_clicked();
+
+private slots:
+    void on_m_pStartButton_clicked();
+
+private slots:
     void OnLocalSDPInfo(const QString &sdpText);
     void OnLocalIceCandidate(const QString &iceCandidate);
 private:
+    void OnStartClicked();
+    void OnAnswerClicked();
+    void OnRemoteICEClicked();
     cricket::VideoCapturer* OpenVideoCaptureDevice();
     MyVideoCapturer *m_pCapturer;
 
