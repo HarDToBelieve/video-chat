@@ -55,7 +55,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="login_btn">
    <property name="geometry">
     <rect>
      <x>330</x>

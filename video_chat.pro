@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -40,6 +41,7 @@ SOURCES += \
 #    mainwindow.cpp
     video_chat.cpp \
 #    peer_connection/customsocketserver.cpp
+    utilities/customsocket.cpp
 
 HEADERS += \
     peer_connection/widgetstreamer.h \
@@ -53,6 +55,7 @@ HEADERS += \
 #    mainwindow.h
     video_chat.h \
 #    peer_connection/customsocketserver.h
+    utilities/customsocket.h
 
 FORMS += \
     mywidget.ui \

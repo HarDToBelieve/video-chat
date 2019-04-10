@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QObject>
-
+#include <QTcpSocket>
 #include <memory>
 #include <iostream>
 
@@ -29,35 +29,21 @@ private:
     Ui::VideoChat *ui;
 
     int my_id;
-    std::unique_ptr<rtc::AsyncSocket> control_socket;
-    rtc::SocketAddress server_address;
-    std::string onconnect_data;
-    std::string control_data;
-    std::string username;
+    QTcpSocket *control_socket;
+    QTcpSocket *data_socket;
+    QString onconnect_data;
+    QString control_data;
+    QString username;
     Peers peers;
-    rtc::AsyncResolver* resolver;
     bool isLoggedIn = false;
 
-    void DoConnect();
-
-    rtc::AsyncSocket* CreateClientSocket(int family);
-    bool InitSocketSignals();
-    bool ReadIntoBuffer(rtc::AsyncSocket *socket, std::string* data, size_t* content_lengt);
-    bool GetHeaderValue(const std::string &data, size_t eoh, const char *header_pattern, size_t* value);
-    bool GetHeaderValue(const std::string &data, size_t eoh, const char *header_pattern, std::string* value);
-    bool ParseServerResponse(const std::string& response, size_t content_length, size_t* peer_id, size_t* eoh);
-    int GetResponseStatus(const std::string& response);
-    bool ParseEntry(const std::string& entry, std::string* name, int *id, bool* connected);
-
-    void OnClose(rtc::AsyncSocket *socket, int err);
-    void OnRead(rtc::AsyncSocket *socket);
-    void OnConnect(rtc::AsyncSocket *socket);
-    void OnResolveResult(rtc::AsyncResolverInterface* resolver);
-
-Q_SIGNALS:
+    void InitializeConnection(QString, quint16);
 
 private Q_SLOTS:
-    void on_pushButton_clicked();
+    void on_login_btn_clicked();
+    void onConnect();
+    void onDisconnect();
+    void onRead();
 };
 
 #endif // VIDEO_CHAT_H
