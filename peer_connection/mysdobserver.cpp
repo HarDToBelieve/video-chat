@@ -18,12 +18,10 @@ void MySDObserver::OnSuccess(webrtc::SessionDescriptionInterface* desc)
     desc->ToString(&sdpStr);
     std::cerr << sdpStr << std::endl;
 
-    emit signalSDPText(QString(sdpStr.c_str()));
+    Q_EMIT signalSDPText(QString(sdpStr.c_str()));
 }
 
 void MySDObserver::OnFailure(const std::string& error)
 {
     std::cerr << "TestSDObserver: OnFailure (due to " << error << ")" << std::endl;
 }
-
-void MySDObserver::signalSDPText(const QString &sdp) {}

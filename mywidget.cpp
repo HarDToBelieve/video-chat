@@ -1,6 +1,6 @@
 #include "mywidget.h"
 
-MyWidget::MyWidget()
+MyWidget::MyWidget(QWidget *parent): QMainWindow(parent), ui(new Ui::MyWidget)
 {
     m_pCapturer = nullptr;
     m_pcfIface = nullptr;
@@ -12,15 +12,16 @@ MyWidget::MyWidget()
     signaling_thread = rtc::Thread::Create();
     signaling_thread->Start();
 
-    setupUi(this);
+    ui->setupUi(this);
 
-//    QObject::connect(m_pStartButton, SIGNAL(clicked()), this, SLOT(MyWidget::OnStartClicked()));
-//    QObject::connect(m_pProcessAnswerButton, SIGNAL(clicked()), this, SLOT(MyWidget::OnAnswerClicked()));
-//    QObject::connect(m_pProcessRemoteICEButton, SIGNAL(clicked()), this, SLOT(MyWidget::OnRemoteICEClicked()));
+    QObject::connect(ui->m_pStartButton, SIGNAL(clicked()), this, SLOT(OnStartClicked()));
+    QObject::connect(ui->m_pProcessAnswerButton, SIGNAL(clicked()), this, SLOT(OnAnswerClicked()));
+    QObject::connect(ui->m_pProcessRemoteICEButton, SIGNAL(clicked()), this, SLOT(OnRemoteICEClicked()));
 }
 
 MyWidget::~MyWidget()
 {
+    delete ui;
 }
 
 void MyWidget::OnStartClicked()
@@ -51,14 +52,14 @@ void MyWidget::OnStartClicked()
     webrtc::PeerConnectionInterface::IceServer server;
     webrtc::PeerConnectionInterface::RTCConfiguration config;
 
-    config.sdp_semantics = webrtc::SdpSemantics::kUnifiedPlan;
+    config.sdp_semantics = webrtc::SdpSemantics::kPlanB;
     config.enable_dtls_srtp = true;
     server.uri = "stun:stun.l.google.com:19302";
     config.servers.push_back(server);
 
     MyConnectionObserver *pTestConnObserver = new MyConnectionObserver();
 
-    QObject::connect(pTestConnObserver, SIGNAL(signalIceCandidate(const QString &)), this, SLOT(onLocalIceCandidate(const QString &)));
+    QObject::connect(pTestConnObserver, SIGNAL(signalIceCandidate(const QString &)), this, SLOT(OnLocalIceCandidate(const QString &)));
 
     m_peerConnection = m_pcfIface->CreatePeerConnection(config, nullptr, nullptr, pTestConnObserver);
 
@@ -91,7 +92,7 @@ void MyWidget::OnStartClicked()
         std::cerr << "Successfully added stream" << std::endl;
 
         MySDObserver *pMySD = new MySDObserver();
-        QObject::connect(pMySD, SIGNAL(signalSDPText(const, QString &)), this, SLOT(onLocalSDPInfo(const QString &)));
+        QObject::connect(pMySD, SIGNAL(signalSDPText(const QString &)), this, SLOT(OnLocalSDPInfo(const QString &)));
         m_peerConnection->CreateOffer(pMySD, webrtc::PeerConnectionInterface::RTCOfferAnswerOptions());
     } else {
         std::cerr << "OpenVideoCaptureDevice failed" << std::endl;
@@ -100,7 +101,7 @@ void MyWidget::OnStartClicked()
 
 void MyWidget::OnAnswerClicked()
 {
-    std::string sdpInfo = m_pAnswerText->toPlainText().toStdString();
+    std::string sdpInfo = ui->m_pAnswerText->toPlainText().toStdString();
     std::cerr << "OnAnswerClicked: " << std::endl << sdpInfo << std::endl;
     std::unique_ptr<webrtc::SessionDescriptionInterface> pSessionDescription = webrtc::CreateSessionDescription(webrtc::SdpType::kAnswer, sdpInfo);
     m_peerConnection->SetRemoteDescription(DummySetSDObserver::Create(), pSessionDescription.release());
@@ -109,7 +110,7 @@ void MyWidget::OnAnswerClicked()
 void MyWidget::OnRemoteICEClicked()
 {
     std::cerr << "OnRemoteICEClicked()" << std::endl;
-    QStringList iceInfo = m_pRemoteICEText->toPlainText().split('\n');
+    QStringList iceInfo = ui->m_pRemoteICEText->toPlainText().split('\n');
 
     for (int i = 0; i < iceInfo.size(); ++i) {
         QString iceLine = iceInfo.at(i);
@@ -148,7 +149,7 @@ void MyWidget::OnRemoteICEClicked()
 
 void MyWidget::OnLocalSDPInfo(const QString &sdpText)
 {
-    m_pOfferText->setPlainText(sdpText);
+    ui->m_pOfferText->setPlainText(sdpText);
     std::string sdpStr = sdpText.toStdString();
     std::unique_ptr<webrtc::SessionDescriptionInterface> pSessionDescription = webrtc::CreateSessionDescription(webrtc::SdpType::kOffer, sdpStr);
     m_peerConnection->SetLocalDescription(DummySetSDObserver::Create(), pSessionDescription.release());
@@ -156,23 +157,7 @@ void MyWidget::OnLocalSDPInfo(const QString &sdpText)
 
 void MyWidget::OnLocalIceCandidate(const QString &iceCandidate)
 {
-    QString str = m_pOwnICEText->toPlainText();
+    QString str = ui->m_pOwnICEText->toPlainText();
     str += iceCandidate + "\n";
-    m_pOwnICEText->setPlainText(str);
-}
-
-void MyWidget::on_m_pStartButton_clicked()
-{
-    MyWidget::OnStartClicked();
-}
-
-void MyWidget::on_m_pProcessAnswerButton_clicked()
-{
-    MyWidget::OnAnswerClicked();
-}
-
-
-void MyWidget::on_m_pProcessRemoteICEButton_clicked()
-{
-    MyWidget::OnRemoteICEClicked();
+    ui->m_pOwnICEText->setPlainText(str);
 }

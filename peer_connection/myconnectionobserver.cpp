@@ -56,7 +56,7 @@ void MyConnectionObserver::OnIceCandidate(const webrtc::IceCandidateInterface* c
 
     snprintf(buf, BUFLEN, "{\"sdpMLineIndex\":%d,\"sdpMid\":\"%s\",\"candidate\":\"%s\\r\\n\"}", mlineIdx, sdpMid.c_str(), iceStr.c_str());
 
-    emit signalIceCandidate(QString(buf));
+    Q_EMIT signalIceCandidate(QString(buf));
 }
 
 void MyConnectionObserver::OnIceGatheringChange(webrtc::PeerConnectionInterface::IceGatheringState new_state)
@@ -73,5 +73,3 @@ void MyConnectionObserver::OnSignalingChange(webrtc::PeerConnectionInterface::Si
 {
     std::cerr << "MyConnectionObserver::OnSignalingChange" << std::endl;
 }
-
-void MyConnectionObserver::signalIceCandidate(const QString &iceCandidate) {}

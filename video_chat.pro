@@ -30,37 +30,40 @@ CONFIG += no_keywords
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
     mywidget.cpp \
-    mysdobserver.cpp \
-    dummysetsdobserver.cpp \
-    myconnectionobserver.cpp \
-    capturetracksource.cpp \
-    vcmcapturer.cpp \
-    video_capturer.cpp \
+    peer_connection/mysdobserver.cpp \
+    peer_connection/dummysetsdobserver.cpp \
+    peer_connection/myconnectionobserver.cpp \
+    peer_connection/capturetracksource.cpp \
+    peer_connection/vcmcapturer.cpp \
+    peer_connection/video_capturer.cpp \
 #    mainwindow.cpp
+    video_chat.cpp \
+#    peer_connection/customsocketserver.cpp
 
 HEADERS += \
-        mainwindow.h \
-    widgetstreamer.h \
-    capturetracksource.h \
+    peer_connection/widgetstreamer.h \
+    peer_connection/capturetracksource.h \
     mywidget.h \
-    mysdobserver.h \
-    dummysetsdobserver.h \
-    myconnectionobserver.h \
-    vcmcapturer.h \
-    video_capturer.h \
+    peer_connection/mysdobserver.h \
+    peer_connection/dummysetsdobserver.h \
+    peer_connection/myconnectionobserver.h \
+    peer_connection/vcmcapturer.h \
+    peer_connection/video_capturer.h \
 #    mainwindow.h
+    video_chat.h \
+#    peer_connection/customsocketserver.h
 
 FORMS += \
-        mainwindow.ui
+    mywidget.ui \
+    main.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix: LIBS += -L$$PWD/lib/unix/ -labsl_base -lssl -lwebrtc -lstdc++ -ldl -lX11
+unix: LIBS += -L$$PWD/lib/unix/ -labsl_base -lssl -lwebrtc -lstdc++ -ldl -lX11 -lpthread
 
 win32: LIBS += -L$$PWD/lib/windows/ -labsl_base -llibssl -lwebrtc
 win32: LIBS += -lwinmm -ladvapi32 -lstrmiids -lmsdmo -ldmoguids -lwmcodecdspuuid -lsecur32
@@ -68,6 +71,7 @@ win32: LIBS += -lwinmm -ladvapi32 -lstrmiids -lmsdmo -ldmoguids -lwmcodecdspuuid
 INCLUDEPATH += $$PWD/./webrtc/
 INCLUDEPATH += $$PWD/./absl/
 INCLUDEPATH += $$PWD/./openssl/
+INCLUDEPATH += $$PWD/./peer_connection/
 
 unix: DEFINES += USE_UDEV
 unix: DEFINES += USE_AURA=1

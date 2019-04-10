@@ -12,10 +12,6 @@
 #include <QMainWindow>
 #include <iostream>
 
-#define slots Q_SLOTS
-#define signals Q_SIGNALS
-#define emit Q_EMIT
-
 #define BUFLEN 1024
 
 class MyConnectionObserver : public QObject, public webrtc::PeerConnectionObserver
@@ -34,8 +30,8 @@ public:
     void OnRenegotiationNeeded();
     void OnIceConnectionChange(webrtc::PeerConnectionInterface::IceConnectionState new_state);
     void OnIceCandidate(const webrtc::IceCandidateInterface* candidate);
-signals:
-    void signalIceCandidate(const QString &iceCandidate);
+private:
+    Q_SIGNAL void signalIceCandidate(const QString &);
 };
 
 #endif // MYCONNECTIONOBSERVER_H

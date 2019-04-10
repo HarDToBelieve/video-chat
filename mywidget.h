@@ -10,7 +10,7 @@
 #include "api/video_codecs/builtin_video_decoder_factory.h"
 #include "api/video_codecs/builtin_video_encoder_factory.h"
 
-#include "ui_mainwindow.h"
+#include "ui_mywidget.h"
 #include "capturetracksource.h"
 #include "mysdobserver.h"
 #include "myconnectionobserver.h"
@@ -19,40 +19,36 @@
 #include <QMainWindow>
 #include <iostream>
 
-#define slots Q_SLOTS
-#define signals Q_SIGNALS
-#define emit Q_EMIT
-
 #define BUFLEN 1024
 
+namespace Ui {
+    class MyWidget;
+}
 class MyVideoCapturer;
 
-class MyWidget : public QMainWindow, public Ui::MainWindow
+class MyWidget : public QMainWindow
 {
     Q_OBJECT
 public:
-    MyWidget();
+    explicit MyWidget(QWidget *parent = nullptr);
     ~MyWidget();
 
-    void setNewFrame(const QImage &img);
-private slots:
-    void on_m_pProcessRemoteICEButton_clicked();
+//    void setNewFrame(const QImage &img);
 
-private slots:
-    void on_m_pProcessAnswerButton_clicked();
-
-private slots:
-    void on_m_pStartButton_clicked();
-
-private slots:
-    void OnLocalSDPInfo(const QString &sdpText);
-    void OnLocalIceCandidate(const QString &iceCandidate);
-private:
+private Q_SLOTS:
     void OnStartClicked();
     void OnAnswerClicked();
     void OnRemoteICEClicked();
+
+private:
+    Q_SLOT void OnLocalSDPInfo(const QString &);
+    Q_SLOT void OnLocalIceCandidate(const QString &);
+
+private:
     cricket::VideoCapturer* OpenVideoCaptureDevice();
     MyVideoCapturer *m_pCapturer;
+//    MyConnectionObserver *pTestConnObserver;
+//    MySDObserver *pMySD;
 
     rtc::scoped_refptr<webrtc::PeerConnectionFactoryInterface> m_pcfIface;
     rtc::scoped_refptr<webrtc::PeerConnectionInterface> m_peerConnection;
@@ -61,6 +57,7 @@ private:
     std::unique_ptr<rtc::Thread> worker_thread;
     std::unique_ptr<rtc::Thread> signaling_thread;
 
+    Ui::MyWidget *ui;
 };
 
 #endif // MYWIDGET_H

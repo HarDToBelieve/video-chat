@@ -10,8 +10,6 @@ class WidgetStreamer : public QObject
 public:
     WidgetStreamer(QWidget *pRenderWidget, MyWidget *pStreamWidget) {}
     ~WidgetStreamer() {}
-private slots:
-    void onTimeout();
 private:
     QWidget *m_pRenderWidget;
     MyWidget *m_pStreamWidget;

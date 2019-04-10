@@ -9,15 +9,10 @@
 #include "api/video_codecs/builtin_video_decoder_factory.h"
 #include "api/video_codecs/builtin_video_encoder_factory.h"
 
-#include "ui_mainwindow.h"
 #include "capturetracksource.h"
 
 #include <QMainWindow>
 #include <iostream>
-
-#define slots Q_SLOTS
-#define signals Q_SIGNALS
-#define emit Q_EMIT
 
 #define BUFLEN 1024
 
