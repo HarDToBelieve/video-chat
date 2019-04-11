@@ -11,8 +11,6 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     VideoChat w;
 
-    std::unique_ptr<rtc::Thread> thread = rtc::Thread::CreateWithSocketServer();
-    thread->Start();
     if (!rtc::InitializeSSL()) {
         std::cerr << "Unable to initialize SSL" << std::endl;
         return -1;

@@ -31,19 +31,24 @@ private:
     int my_id;
     QTcpSocket *control_socket;
     QTcpSocket *data_socket;
-    QString onconnect_data;
-    QString control_data;
     QString username;
+    QString host;
+    quint16 port;
     Peers peers;
     bool isLoggedIn = false;
 
-    void InitializeConnection(QString, quint16);
+    void InitializeConnection();
+    void Close();
 
-private Q_SLOTS:
-    void on_login_btn_clicked();
-    void onConnect();
-    void onDisconnect();
-    void onRead();
+private:
+    Q_SLOT void on_login_btn_clicked();
+    Q_SLOT void onControlConnect();
+    Q_SLOT void onControlDisconnect();
+    Q_SLOT void onControlRead();
+
+    Q_SLOT void onDataConnect();
+    Q_SLOT void onDataDisconnect();
+    Q_SLOT void onDataRead();
 };
 
 #endif // VIDEO_CHAT_H
