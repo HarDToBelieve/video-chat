@@ -6,6 +6,10 @@
 #include <QTcpSocket>
 #include <memory>
 #include <iostream>
+#include <QStringListModel>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include "ui_main.h"
 #include "rtc_base/async_socket.h"
@@ -13,7 +17,7 @@
 #include "rtc_base/logging.h"
 #include "rtc_base/physical_socket_server.h"
 
-typedef std::map<int, std::string> Peers;
+typedef std::map<QString, int> Peers;
 
 namespace Ui {
     class VideoChat;
@@ -25,6 +29,7 @@ class VideoChat : public QDialog, public sigslot::has_slots<>
 public:
     explicit VideoChat(QWidget *parent = nullptr);
     ~VideoChat();
+
 private:
     Ui::VideoChat *ui;
 
@@ -36,11 +41,15 @@ private:
     quint16 port;
     Peers peers;
     bool isLoggedIn = false;
+    bool isSigningOut = false;
+    bool isCalling = false;
+    QStringListModel *model;
 
     void InitializeConnection();
     void Close();
 
 private:
+    Q_SLOT void on_listView_peers_doubleClicked(const QModelIndex &index);
     Q_SLOT void on_login_btn_clicked();
     Q_SLOT void onControlConnect();
     Q_SLOT void onControlDisconnect();

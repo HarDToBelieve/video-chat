@@ -67,18 +67,10 @@ void MyWidget::OnStartClicked()
         return;
 
     rtc::scoped_refptr<webrtc::AudioTrackInterface> audio_track(m_pcfIface->CreateAudioTrack("audio_label", m_pcfIface->CreateAudioSource(cricket::AudioOptions())));
-//    auto result_or_error = m_peerConnection->AddTrack(audio_track, {"stream_id"});
-//    if (!result_or_error.ok()) {
-//        std::cerr << "Failed to add audio track to PeerConnection: " << result_or_error.error().message() << std::endl;
-//    }
 
     rtc::scoped_refptr<CaptureTrackSource> video_device = CaptureTrackSource::Create();
     if (video_device) {
         rtc::scoped_refptr<webrtc::VideoTrackInterface> video_track(m_pcfIface->CreateVideoTrack("video_label", video_device));
-//        result_or_error = m_peerConnection->AddTrack(video_track, {"stream_id"});
-//        if (!result_or_error.ok()) {
-//            std::cerr << "Failed to add video track to PeerConnection: " << result_or_error.error().message() << std::endl;
-//        }
         rtc::scoped_refptr<webrtc::MediaStreamInterface> stream;
         stream = m_pcfIface->CreateLocalMediaStream("myStream");
         stream->AddTrack(audio_track);

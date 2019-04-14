@@ -42,6 +42,7 @@ SOURCES += \
     video_chat.cpp \
 #    peer_connection/customsocketserver.cpp
 #    utilities/customsocket.cpp
+    backend.cpp
 
 HEADERS += \
     peer_connection/widgetstreamer.h \
@@ -56,6 +57,7 @@ HEADERS += \
     video_chat.h \
 #    peer_connection/customsocketserver.h
 #    utilities/customsocket.h
+    backend.h
 
 FORMS += \
     mywidget.ui \
