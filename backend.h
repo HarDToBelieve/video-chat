@@ -13,6 +13,7 @@
 #include "mysdobserver.h"
 #include "myconnectionobserver.h"
 #include "dummysetsdobserver.h"
+#include "video_renderer.h"
 
 #include <QObject>
 #include <QDebug>
@@ -33,6 +34,8 @@ private:
     rtc::scoped_refptr<webrtc::PeerConnectionFactoryInterface> m_pcfIface;
     rtc::scoped_refptr<webrtc::PeerConnectionInterface> m_peerConnection;
     MyConnectionObserver *pTestConnObserver;
+    std::unique_ptr<VideoRenderer> local_renderer_;
+    std::unique_ptr<VideoRenderer> remote_renderer_;
 };
 
 #endif // BACKEND_H

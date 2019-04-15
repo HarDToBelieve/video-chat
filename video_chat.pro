@@ -42,7 +42,8 @@ SOURCES += \
     video_chat.cpp \
 #    peer_connection/customsocketserver.cpp
 #    utilities/customsocket.cpp
-    backend.cpp
+    backend.cpp \
+    peer_connection/video_renderer.cpp
 
 HEADERS += \
     peer_connection/widgetstreamer.h \
@@ -57,7 +58,8 @@ HEADERS += \
     video_chat.h \
 #    peer_connection/customsocketserver.h
 #    utilities/customsocket.h
-    backend.h
+    backend.h \
+    peer_connection/video_renderer.h
 
 FORMS += \
     mywidget.ui \
@@ -68,15 +70,13 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix: LIBS += -L$$PWD/lib/unix/ -labsl_base -lssl -lwebrtc -lstdc++ -ldl -lX11 -lpthread
-
-win32: LIBS += -L$$PWD/lib/windows/ -labsl_base -llibssl -lwebrtc
-win32: LIBS += -lwinmm -ladvapi32 -lstrmiids -lmsdmo -ldmoguids -lwmcodecdspuuid -lsecur32
+unix: LIBS += -L$$PWD/lib/unix/ -labsl_base -lssl -lwebrtc -lyuv -lstdc++ -ldl -lX11 -lpthread
 
 INCLUDEPATH += $$PWD/./webrtc/
 INCLUDEPATH += $$PWD/./absl/
 INCLUDEPATH += $$PWD/./openssl/
 INCLUDEPATH += $$PWD/./peer_connection/
+INCLUDEPATH += $$PWD/./yuv/
 
 unix: DEFINES += USE_UDEV
 unix: DEFINES += USE_AURA=1
