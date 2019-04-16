@@ -35,4 +35,5 @@ void VideoRenderer::OnFrame(const webrtc::VideoFrame &video_frame)
                        buffer->StrideU(), buffer->DataV(), buffer->StrideV(),
                        image_.get(), width_ * 4, buffer->width(),
                        buffer->height());
+    vc->StreamVideo();
 }

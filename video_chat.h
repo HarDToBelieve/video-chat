@@ -17,6 +17,9 @@
 #include "rtc_base/logging.h"
 #include "rtc_base/physical_socket_server.h"
 
+#include "video_renderer.h"
+#include "backend.h"
+
 typedef std::map<QString, int> Peers;
 
 namespace Ui {
@@ -44,9 +47,11 @@ private:
     bool isSigningOut = false;
     bool isCalling = false;
     QStringListModel *model;
+    Backend *be;
 
     void InitializeConnection();
     void Close();
+    void StreamVideo();
 
 private:
     Q_SLOT void on_listView_peers_doubleClicked(const QModelIndex &index);

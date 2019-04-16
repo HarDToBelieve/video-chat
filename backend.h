@@ -22,10 +22,16 @@ class Backend: public QObject
 {
     Q_OBJECT
 public:
-    explicit Backend();
+    explicit Backend(VideoChat *vc);
     ~Backend();
 
     void initLocalInfo();
+    VideoRenderer *getLocalRenderer();
+    VideoRenderer *getRemoteRenderer();
+    uint8_t *getDrawBuffer();
+    int getDrawSize();
+    int getWidth();
+    int getHeight();
 
 private:
     QString sdpData;
@@ -36,6 +42,12 @@ private:
     MyConnectionObserver *pTestConnObserver;
     std::unique_ptr<VideoRenderer> local_renderer_;
     std::unique_ptr<VideoRenderer> remote_renderer_;
+
+    VideoChat *vc;
+    int width_;
+    int height_;
+    std::unique_ptr<uint8_t[]> draw_buffer_;
+    int draw_buffer_size_;
 };
 
 #endif // BACKEND_H

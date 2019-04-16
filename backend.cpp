@@ -1,7 +1,8 @@
 #include "backend.h"
 
-Backend::Backend()
+Backend::Backend(VideoChat *vc): vc(vc)
 {
+    this->vc = vc;
     m_pcfIface = nullptr;
     m_peerConnection = nullptr;
     sdpData.clear();
@@ -48,8 +49,38 @@ void Backend::initLocalInfo()
         if (!result_or_error.ok()) {
             qDebug() << "Failed to add video track to PeerConnection: "<< result_or_error.error().message();
         }
-
+        local_renderer_.reset(new VideoRenderer(vc, video_track));
     } else {
         qDebug() << "OpenVideoCaptureDevice failed";
     }
+}
+
+VideoRenderer *Backend::getLocalRenderer()
+{
+    return local_renderer_.get();
+}
+
+VideoRenderer *Backend::getRemoteRenderer()
+{
+    return remote_renderer_.get();
+}
+
+uint8_t *Backend::getDrawBuffer()
+{
+    return draw_buffer_.get();
+}
+
+int Backend::getDrawSize()
+{
+    return draw_buffer_size_;
+}
+
+int Backend::getWidth()
+{
+    return width_;
+}
+
+int Backend::getHeight()
+{
+    return height_;
 }
