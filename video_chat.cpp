@@ -196,8 +196,8 @@ void VideoChat::on_listView_peers_doubleClicked(const QModelIndex &index)
 
 void VideoChat::StreamVideo()
 {
-    VideoRenderer *local_render = be->getLocalRenderer();
-    if (local_render && local_render->image()) {
-        const uint32_t* image = reinterpret_cast<const uint32_t*>(local_render->image());
-    }
+//    VideoRenderer *local_render = be->getLocalRenderer();
+//    if (local_render && local_render->image()) {
+//        const uint32_t* image = reinterpret_cast<const uint32_t*>(local_render->image());
+//    }
 }

@@ -43,7 +43,7 @@ SOURCES += \
 #    peer_connection/customsocketserver.cpp
 #    utilities/customsocket.cpp
     backend.cpp \
-    peer_connection/video_renderer.cpp
+#    peer_connection/video_renderer.cpp
 
 HEADERS += \
     peer_connection/widgetstreamer.h \
@@ -59,7 +59,7 @@ HEADERS += \
 #    peer_connection/customsocketserver.h
 #    utilities/customsocket.h
     backend.h \
-    peer_connection/video_renderer.h
+#    peer_connection/video_renderer.h
 
 FORMS += \
     mywidget.ui \

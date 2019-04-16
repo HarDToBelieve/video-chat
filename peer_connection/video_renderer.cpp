@@ -1,6 +1,6 @@
 #include "video_renderer.h"
 
-VideoRenderer::VideoRenderer(VideoChat *vc, webrtc::VideoTrackInterface* track_to_render):
+VideoRenderer::VideoRenderer(Ui::VideoChat *vc, webrtc::VideoTrackInterface* track_to_render):
     width_(0), height_(0), vc(vc), rendered_track_(track_to_render)
 {
     rendered_track_->AddOrUpdateSink(this, rtc::VideoSinkWants());

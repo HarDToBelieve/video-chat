@@ -17,7 +17,7 @@
 #include "rtc_base/logging.h"
 #include "rtc_base/physical_socket_server.h"
 
-#include "video_renderer.h"
+//#include "video_renderer.h"
 #include "backend.h"
 
 typedef std::map<QString, int> Peers;
