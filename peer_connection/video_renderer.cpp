@@ -9,11 +9,12 @@ VideoRenderer::VideoRenderer(QObject *vc, webrtc::VideoTrackInterface* track_to_
 
 VideoRenderer::~VideoRenderer()
 {
-    rendered_track_->RemoveSink(this);
+//    rendered_track_->RemoveSink(this);
 }
 
 void VideoRenderer::setSize(int width, int height)
 {
+    mutex_setSize.lock();
     if (width_ == width && height_ == height) {
       return;
     }
@@ -21,10 +22,12 @@ void VideoRenderer::setSize(int width, int height)
     width_ = width;
     height_ = height;
     image_.reset(new uint8_t[width * height * 4]);
+    mutex_setSize.unlock();
 }
 
 void VideoRenderer::OnFrame(const webrtc::VideoFrame &video_frame)
 {
+    mutex_onFrame.lock();
     rtc::scoped_refptr<webrtc::I420BufferInterface> buffer(
                 video_frame.video_frame_buffer()->ToI420());
     if (video_frame.rotation() != webrtc::kVideoRotation_0) {
@@ -37,5 +40,6 @@ void VideoRenderer::OnFrame(const webrtc::VideoFrame &video_frame)
                        image_.get(), width_ * 4, buffer->width(),
                        buffer->height());
     VideoChat *tmp = static_cast<VideoChat *>(vc);
+    mutex_onFrame.unlock();
     tmp->StreamVideo();
 }

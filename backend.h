@@ -24,6 +24,7 @@ class Backend: public QObject
     Q_OBJECT
 public:
     explicit Backend(QObject *vc);
+    ~Backend();
 
     void initLocalInfo();
     VideoRenderer *getLocalRenderer();
@@ -46,6 +47,11 @@ private:
     QObject *vc;
     int width_;
     int height_;
+
+    std::unique_ptr<rtc::Thread> network_thread;
+    std::unique_ptr<rtc::Thread> worker_thread;
+    std::unique_ptr<rtc::Thread> signaling_thread;
+
 };
 
 #endif // BACKEND_H

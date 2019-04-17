@@ -8,8 +8,6 @@ VideoChat::VideoChat(QWidget *parent) : QDialog(parent), ui(new Ui::VideoChat)
     be = new Backend(this);
 
     model = new QStringListModel(this);
-//    QStringList tmp; tmp << "asd" << "24t";
-//    model->setStringList(tmp);
 
     ui->setupUi(this);
     ui->listView_peers->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -33,6 +31,7 @@ VideoChat::~VideoChat()
     if (data_socket != nullptr && data_socket->state() == QTcpSocket::ConnectedState)
         data_socket->close();
 
+    delete be;
     delete ui;
 }
 

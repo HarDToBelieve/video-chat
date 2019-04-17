@@ -52,6 +52,8 @@ private:
     QStringListModel *model;
     Backend *be;
 
+
+
 private:
     Q_SLOT void on_listView_peers_doubleClicked(const QModelIndex &index);
     Q_SLOT void on_login_btn_clicked();

@@ -7,6 +7,8 @@
 #include "api/video/i420_buffer.h"
 
 #include <QGraphicsView>
+#include <QMutex>
+
 #include "yuv/libyuv.h"
 
 class VideoRenderer: public rtc::VideoSinkInterface<webrtc::VideoFrame>
@@ -26,6 +28,8 @@ private:
     int width_;
     int height_;
     QObject *vc;
+    QMutex mutex_setSize;
+    QMutex mutex_onFrame;
     rtc::scoped_refptr<webrtc::VideoTrackInterface> rendered_track_;
 };
 

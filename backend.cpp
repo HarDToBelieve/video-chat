@@ -3,6 +3,13 @@
 
 Backend::Backend(QObject *vc): vc(vc)
 {
+    network_thread = rtc::Thread::CreateWithSocketServer();
+    network_thread->Start();
+    worker_thread = rtc::Thread::Create();
+    worker_thread->Start();
+    signaling_thread = rtc::Thread::Create();
+    signaling_thread->Start();
+
     this->vc = vc;
     m_pcfIface = nullptr;
     m_peerConnection = nullptr;
@@ -10,10 +17,20 @@ Backend::Backend(QObject *vc): vc(vc)
     iceCandidateData.clear();
 }
 
+Backend::~Backend()
+{
+    network_thread->Stop();
+    worker_thread->Stop();
+    signaling_thread->Stop();
+
+    sdpData.clear();
+    iceCandidateData.clear();
+}
+
 void Backend::initLocalInfo()
 {
     m_pcfIface = webrtc::CreatePeerConnectionFactory(
-                nullptr, nullptr, nullptr, nullptr,
+                network_thread.get(), worker_thread.get(), signaling_thread.get(), nullptr,
                 webrtc::CreateBuiltinAudioEncoderFactory(),
                 webrtc::CreateBuiltinAudioDecoderFactory(),
                 webrtc::CreateBuiltinVideoEncoderFactory(),
@@ -44,15 +61,14 @@ void Backend::initLocalInfo()
     rtc::scoped_refptr<CaptureTrackSource> video_device = CaptureTrackSource::Create();
     if (video_device) {
         rtc::scoped_refptr<webrtc::VideoTrackInterface> video_track(m_pcfIface->CreateVideoTrack("video_label", video_device));
-        rtc::scoped_refptr<webrtc::MediaStreamInterface> stream;
 
-        auto result_or_error = m_peerConnection->AddTrack(audio_track, {"stream_id"});
+        auto result_or_error = m_peerConnection->AddTrack(video_track, {"stream_id"});
         if (!result_or_error.ok()) {
             qDebug() << "Failed to add video track to PeerConnection: "<< result_or_error.error().message();
         }
-        local_renderer_.reset(new VideoRenderer(vc, video_track));
+//        local_renderer_.reset(new VideoRenderer(vc, video_track));
     } else {
-        qDebug() << "OpenVideoCaptureDevice failed";
+        qDebug() << "Failed to craete CaptureTrackSource";
     }
 
 }
