@@ -1,6 +1,7 @@
 #include "video_renderer.h"
+#include "video_chat.h"
 
-VideoRenderer::VideoRenderer(Ui::VideoChat *vc, webrtc::VideoTrackInterface* track_to_render):
+VideoRenderer::VideoRenderer(QObject *vc, webrtc::VideoTrackInterface* track_to_render):
     width_(0), height_(0), vc(vc), rendered_track_(track_to_render)
 {
     rendered_track_->AddOrUpdateSink(this, rtc::VideoSinkWants());
@@ -35,5 +36,6 @@ void VideoRenderer::OnFrame(const webrtc::VideoFrame &video_frame)
                        buffer->StrideU(), buffer->DataV(), buffer->StrideV(),
                        image_.get(), width_ * 4, buffer->width(),
                        buffer->height());
-    vc->StreamVideo();
+    VideoChat *tmp = static_cast<VideoChat *>(vc);
+    tmp->StreamVideo();
 }

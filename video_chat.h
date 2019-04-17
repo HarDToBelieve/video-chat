@@ -33,6 +33,9 @@ public:
     explicit VideoChat(QWidget *parent = nullptr);
     ~VideoChat();
 
+    void InitializeConnection();
+    void Close();
+    void StreamVideo();
 private:
     Ui::VideoChat *ui;
 
@@ -48,10 +51,6 @@ private:
     bool isCalling = false;
     QStringListModel *model;
     Backend *be;
-
-    void InitializeConnection();
-    void Close();
-    void StreamVideo();
 
 private:
     Q_SLOT void on_listView_peers_doubleClicked(const QModelIndex &index);

@@ -13,7 +13,8 @@
 #include "mysdobserver.h"
 #include "myconnectionobserver.h"
 #include "dummysetsdobserver.h"
-//#include "video_renderer.h"
+
+#include "video_renderer.h"
 
 #include <QObject>
 #include <QDebug>
@@ -25,8 +26,8 @@ public:
     explicit Backend(QObject *vc);
 
     void initLocalInfo();
-//    VideoRenderer *getLocalRenderer();
-//    VideoRenderer *getRemoteRenderer();
+    VideoRenderer *getLocalRenderer();
+    VideoRenderer *getRemoteRenderer();
     uint8_t *getDrawBuffer();
     int getDrawSize();
     int getWidth();
@@ -39,14 +40,12 @@ private:
     rtc::scoped_refptr<webrtc::PeerConnectionFactoryInterface> m_pcfIface;
     rtc::scoped_refptr<webrtc::PeerConnectionInterface> m_peerConnection;
     MyConnectionObserver *pTestConnObserver;
-//    std::unique_ptr<VideoRenderer> local_renderer_;
-//    std::unique_ptr<VideoRenderer> remote_renderer_;
+    std::unique_ptr<VideoRenderer> local_renderer_;
+    std::unique_ptr<VideoRenderer> remote_renderer_;
 
     QObject *vc;
     int width_;
     int height_;
-    std::unique_ptr<uint8_t[]> draw_buffer_;
-    int draw_buffer_size_;
 };
 
 #endif // BACKEND_H

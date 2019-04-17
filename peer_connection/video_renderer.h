@@ -6,15 +6,13 @@
 #include "api/media_stream_interface.h"
 #include "api/video/i420_buffer.h"
 
-#include "video_chat.h"
-
 #include <QGraphicsView>
 #include "yuv/libyuv.h"
 
 class VideoRenderer: public rtc::VideoSinkInterface<webrtc::VideoFrame>
 {
 public:
-    VideoRenderer(Ui::VideoChat *vc, webrtc::VideoTrackInterface* track_to_render);
+    VideoRenderer(QObject *vc, webrtc::VideoTrackInterface* track_to_render);
     virtual ~VideoRenderer() override;
 
     void OnFrame(const webrtc::VideoFrame& frame) override;
@@ -27,7 +25,7 @@ private:
     std::unique_ptr<uint8_t[]> image_;
     int width_;
     int height_;
-    Ui::VideoChat *vc;
+    QObject *vc;
     rtc::scoped_refptr<webrtc::VideoTrackInterface> rendered_track_;
 };
 

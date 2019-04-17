@@ -5,6 +5,8 @@ VideoChat::VideoChat(QWidget *parent) : QDialog(parent), ui(new Ui::VideoChat)
     control_socket = nullptr;
     data_socket = nullptr;
 
+    be = new Backend(this);
+
     model = new QStringListModel(this);
 //    QStringList tmp; tmp << "asd" << "24t";
 //    model->setStringList(tmp);
@@ -66,6 +68,7 @@ void VideoChat::on_login_btn_clicked()
 
     if (host.size() && username.size() && port != 0) {
         InitializeConnection();
+        be->initLocalInfo();
     }
 }
 
@@ -196,8 +199,8 @@ void VideoChat::on_listView_peers_doubleClicked(const QModelIndex &index)
 
 void VideoChat::StreamVideo()
 {
-//    VideoRenderer *local_render = be->getLocalRenderer();
-//    if (local_render && local_render->image()) {
-//        const uint32_t* image = reinterpret_cast<const uint32_t*>(local_render->image());
-//    }
+    VideoRenderer *local_render = be->getLocalRenderer();
+    if (local_render && local_render->image()) {
+        const uint32_t* image = reinterpret_cast<const uint32_t*>(local_render->image());
+    }
 }
